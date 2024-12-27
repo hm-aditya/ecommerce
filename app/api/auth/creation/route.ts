@@ -34,5 +34,5 @@ export async function GET() {
     console.log("first time user", dbUser);
   }
 
-  return NextResponse.redirect("http://localhost:3000/");
+  return NextResponse.redirect(process.env.NODE_ENV === "development"?"http://localhost:3000/":"https://ecommerce-smoky-alpha.vercel.app");
 }
