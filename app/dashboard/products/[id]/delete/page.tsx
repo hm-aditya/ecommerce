@@ -10,18 +10,20 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 
-export default function DeleteRoute({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Props = {
+  params: Promise<{ id: string }>;
+}
+
+export default async function DeleteRoute({ params }: Props) {
+  const { id } = await params;
+  
   return (
     <div className="h-[80vh] w-full flex items-center justify-center">
       <Card className="max-w-xl">
         <CardHeader>
           <CardTitle>Are you sure you want to delete this product?</CardTitle>
           <CardDescription>
-            This action cannot be undone.This will permanently delete your
+            This action cannot be undone. This will permanently delete your
             product and remove all data from our servers.
           </CardDescription>
         </CardHeader>
@@ -30,7 +32,7 @@ export default function DeleteRoute({
             <Link href={"/dashboard/products"}>Cancel</Link>
           </Button>
           <form action={deleteProduct}>
-            <input type="hidden" name="productId" value={params.id} />
+            <input type="hidden" name="productId" value={id} />
             <SubmitButton variant={"destructive"} text="Delete" />
           </form>
         </CardFooter>
