@@ -17,6 +17,7 @@ interface DeleteBannerProps {
   };
 }
 
+// Dynamic route page component
 export default function DeleteBanner({ params }: DeleteBannerProps) {
   return (
     <div className="h-[80vh] w-full flex items-center justify-center">
@@ -41,3 +42,4 @@ export default function DeleteBanner({ params }: DeleteBannerProps) {
     </div>
   );
 }
+
