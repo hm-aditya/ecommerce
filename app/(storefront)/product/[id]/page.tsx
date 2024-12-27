@@ -1,8 +1,7 @@
-"use server";
 import { addItem } from "@/app/actions";
-import { FeaturedProducts } from "@/app/components/storefront/FeaturedProducts";
-import ImageSlider from "@/app/components/storefront/ImageSlider";
 import { ShoppingCartButton } from "@/app/components/SubmitButtons";
+import { FeaturedProducts } from "@/app/components/storefront/FeaturedProducts";
+import { ImageSlider } from "@/app/components/storefront/ImageSlider";
 import prisma from "@/app/lib/db";
 import { StarIcon } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -14,26 +13,32 @@ async function getData(productId: string) {
       id: productId,
     },
     select: {
-      id: true,
-      name: true,
-      description: true,
-      images: true,
       price: true,
+      images: true,
+      description: true,
+      name: true,
+      id: true,
     },
   });
+
   if (!data) {
     return notFound();
   }
+
   return data;
 }
 
 export default async function ProductIdRoute({
   params,
-}: Awaited<Promise<{ params: { id: string } }>>) {
-  noStore(); // Prevents caching for this route
-  const data = await getData(params.id); // Fetch product data based on ID
-  const addProducttoShoppingCart = addItem.bind(null, data.id); // Action to add product to the cart
+}: {
+  params: { id: string }
+}) {
+  // Await params to ensure it's fetched asynchronously
+  const { id } = await params;
 
+  noStore();
+  const data = await getData(id);
+  const addProducttoShoppingCart = addItem.bind(null, data.id);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6">
@@ -42,20 +47,22 @@ export default async function ProductIdRoute({
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
             {data.name}
           </h1>
-          <p className="mt-2 text-xl text-gray-600">${data.price}</p>
+          <p className="text-3xl mt-2 text-gray-900">${data.price}</p>
           <div className="mt-3 flex items-center gap-1">
-            <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+            <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+            <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+            <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+            <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+            <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
           </div>
           <p className="text-base text-gray-700 mt-6">{data.description}</p>
+
           <form action={addProducttoShoppingCart}>
             <ShoppingCartButton />
           </form>
         </div>
       </div>
+
       <div className="mt-16">
         <FeaturedProducts />
       </div>
