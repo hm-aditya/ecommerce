@@ -1,6 +1,7 @@
 import { ProductCard } from "@/app/components/storefront/ProductCard";
 import prisma from "@/app/lib/db";
 import { notFound } from "next/navigation";
+import { unstable_noStore as noStore } from "next/cache";
 
 
 
@@ -65,7 +66,8 @@ async function getData(productCategory: string) {
   }
 }
 export default async function CategoryPage({params}:{params:{name:string}}) {
-    const {data,title}=await getData(params.name);
+  noStore()  
+  const {data,title}=await getData(params.name);
     return (
         <section>
             <h1 className="font-semibold text-3xl my-5">{title}</h1>

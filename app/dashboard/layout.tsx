@@ -15,12 +15,14 @@ import {
   LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  noStore();
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   if (!user || user.email !== "patilad3618@gmail.com") {

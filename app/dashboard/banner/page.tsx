@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
+
 async function getData(){
     const data = await prisma.banner.findMany({
         orderBy:{
@@ -16,6 +18,7 @@ async function getData(){
 }
 
 export default async function BannerRoute(){
+   noStore();
     const data= await getData();
     return(<>
     <div className="flex items-center justify-end">
