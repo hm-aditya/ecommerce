@@ -3,8 +3,6 @@ import prisma from "@/app/lib/db";
 import { notFound } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
 
-
-
 async function getData(productCategory: string) {
   switch (productCategory) {
     case "all": {
@@ -46,7 +44,6 @@ async function getData(productCategory: string) {
       });
       return { title: "Women", data: data };
     }
-
     case "kids": {
       const data = await prisma.product.findMany({
         where: { status: "published", category: "kids" },
@@ -65,17 +62,24 @@ async function getData(productCategory: string) {
     }
   }
 }
-export default async function CategoryPage({params}:{params:{name:string}}) {
-  noStore()  
-  const {data,title}=await getData(params.name);
-    return (
-        <section>
-            <h1 className="font-semibold text-3xl my-5">{title}</h1>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {data.map((item)=>(
-                    <ProductCard item={item } key={item.id}/>
-                ))}
-            </div>
-        </section>
-    );
+
+type Props = {
+  params: Promise<{ name: string }>;
+}
+
+export default async function CategoryPage({ params }: Props) {
+  const { name } = await params;
+  noStore();
+  const { data, title } = await getData(name);
+  
+  return (
+    <section>
+      <h1 className="font-semibold text-3xl my-5">{title}</h1>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {data.map((item) => (
+          <ProductCard item={item} key={item.id} />
+        ))}
+      </div>
+    </section>
+  );
 }
