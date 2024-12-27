@@ -31,9 +31,8 @@ async function getData(productId: string) {
 export default async function ProductIdRoute({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  // Await params to ensure it's fetched asynchronously
   const { id } = await params;
 
   noStore();
