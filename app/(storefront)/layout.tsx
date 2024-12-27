@@ -1,11 +1,13 @@
 
 import { Footer } from "../components/storefront/Footer";
-import NavBar from "../components/storefront/NavBar";
+
 import {type ReactNode } from "react";
+import { Navbar } from "../components/storefront/NavBar";
 export default function StoreFrontLayout({children} :{children: ReactNode}) {
     return (
         <>
-            <NavBar/>
+        
+            <Navbar/>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">{children}</main>
        <Footer/>
         </>
