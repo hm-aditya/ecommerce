@@ -4,7 +4,7 @@ import { FeaturedProducts } from "@/app/components/storefront/FeaturedProducts";
 import ImageSlider from "@/app/components/storefront/ImageSlider";
 import { ShoppingCartButton } from "@/app/components/SubmitButtons";
 import prisma from "@/app/lib/db";
-import {  StarIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -26,14 +26,16 @@ async function getData(productId: string) {
   }
   return data;
 }
+
 export default async function ProductIdRoute({
   params,
 }: {
-  params: { id: string }
+  params: { id: string }; // Explicitly defining the params type
 }) {
-  noStore();
-  const data = await getData(params.id);
-  const addProducttoShoppingCart = addItem.bind(null, data.id);
+  noStore(); // Prevents caching for this route
+  const data = await getData(params.id); // Fetch product data based on ID
+  const addProducttoShoppingCart = addItem.bind(null, data.id); // Action to add product to the cart
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6">
@@ -52,8 +54,7 @@ export default async function ProductIdRoute({
           </div>
           <p className="text-base text-gray-700 mt-6">{data.description}</p>
           <form action={addProducttoShoppingCart}>
-          
-            <ShoppingCartButton/>
+            <ShoppingCartButton />
           </form>
         </div>
       </div>
