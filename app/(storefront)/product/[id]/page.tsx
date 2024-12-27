@@ -29,9 +29,7 @@ async function getData(productId: string) {
 
 export default async function ProductIdRoute({
   params,
-}: {
-  params: { id: string }; // Explicitly defining the params type
-}) {
+}: Awaited<Promise<{ params: { id: string } }>>) {
   noStore(); // Prevents caching for this route
   const data = await getData(params.id); // Fetch product data based on ID
   const addProducttoShoppingCart = addItem.bind(null, data.id); // Action to add product to the cart
