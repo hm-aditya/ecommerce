@@ -18,7 +18,9 @@ interface DeleteBannerProps {
 }
 
 // Dynamic route page component
-export default function DeleteBanner({ params }: DeleteBannerProps) {
+const DeleteBanner = async ({ params }: DeleteBannerProps) => {
+  const bannerId = await Promise.resolve(params.id); // Ensure `params.id` is resolved (simulate async if needed)
+  
   return (
     <div className="h-[80vh] w-full flex items-center justify-center">
       <Card className="max-w-xl">
@@ -34,12 +36,16 @@ export default function DeleteBanner({ params }: DeleteBannerProps) {
             <Link href="/dashboard/banner">Cancel</Link>
           </Button>
           <form action={deleteBanner}>
-            <input type="hidden" name="bannerId" value={params.id} />
+            <input type="hidden" name="bannerId" value={bannerId} />
             <SubmitButton variant="destructive" text="Delete" />
           </form>
         </CardFooter>
       </Card>
     </div>
   );
-}
+};
+
+export default DeleteBanner;
+
+
 
