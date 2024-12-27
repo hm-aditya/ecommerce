@@ -11,16 +11,17 @@ import {
 import Link from "next/link";
 
 // Define type for props
-interface DeleteBannerProps {
-  params: {
+type Props=  {
+  params: Promise<{
     id: string;
-  };
+  }>
 }
 
 // Dynamic route page component
-const DeleteBanner = async ({ params }: DeleteBannerProps) => {
-  const bannerId = await Promise.resolve(params.id); // Ensure `params.id` is resolved (simulate async if needed)
-  
+const DeleteBanner = async ({ params }: Props) => {
+  const { id } = await params;
+
+  const bannerId = id;  
   return (
     <div className="h-[80vh] w-full flex items-center justify-center">
       <Card className="max-w-xl">
