@@ -49,9 +49,11 @@ export function ProductCard({ item }: iAppProps) {
       <p className="text-sm mt-2 text-gray-400 line-clamp-2">
         {item.description}
       </p>
-      <Button className="mt-5 w-full ">
-        <Link href={`/product/${item.id}`}>Learn More</Link>
-      </Button>
+      <Link href={`/product/${item.id}`}>
+          <Button className="mt-5 w-full ">
+             Learn More
+          </Button>
+       </Link> 
     </div>
   );
 }
